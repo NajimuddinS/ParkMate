@@ -1,8 +1,8 @@
 // src/components/ReservationList.js
 import React from 'react';
-import { Clock, MapPin, DollarSign, CheckCircle, XCircle } from 'lucide-react';
+import { Clock, MapPin, DollarSign, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 
-const ReservationList = ({ reservations }) => {
+const ReservationList = ({ reservations, onCancel, compact }) => {
   if (reservations.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -11,11 +11,13 @@ const ReservationList = ({ reservations }) => {
     );
   }
 
+  const displayedReservations = compact ? reservations.slice(0, 3) : reservations;
+
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">My Reservations</h2>
-      {reservations.map((reservation) => (
-        <div key={reservation.reservationId} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      {!compact && <h2 className="text-xl font-semibold text-gray-800 mb-4">My Reservations</h2>}
+      {displayedReservations.map((reservation) => (
+        <div key={reservation.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="flex justify-between items-start mb-2">
             <h3 className="font-medium text-gray-800">{reservation.spot.name}</h3>
             <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
@@ -51,8 +53,19 @@ const ReservationList = ({ reservations }) => {
             </div>
           </div>
           
-          <div className="text-xs text-gray-500">
-            Reserved at: {new Date(reservation.timestamp || Date.now()).toLocaleString()}
+          <div className="flex justify-between items-center">
+            <div className="text-xs text-gray-500">
+              Reserved at: {new Date(reservation.timestamp).toLocaleString()}
+            </div>
+            {onCancel && (
+              <button 
+                onClick={() => onCancel(reservation.id)}
+                className="text-red-500 hover:text-red-700 p-1"
+                title="Cancel reservation"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
       ))}

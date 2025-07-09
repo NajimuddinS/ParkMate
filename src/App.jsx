@@ -19,7 +19,7 @@ function App() {
     error: locationError,
   } = useGeolocation();
   const networkStatus = useNetworkStatus();
-  const { reservations, addReservation } = useReservation();
+  const { reservations, addReservation, cancelReservation } = useReservation();
   const [parkingSpots, setParkingSpots] = useState([]);
   const [selectedSpot, setSelectedSpot] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +66,7 @@ function App() {
   const handlePaymentConfirm = (paymentData) => {
     const reservationData = {
       ...paymentData,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
     addReservation(reservationData);
     setPaymentModal({ isOpen: false, spot: null });
@@ -103,6 +103,27 @@ function App() {
                 </button>
               </div>
             </div>
+
+            {/* Moved Bookings section here */}
+            <div className="p-4 bg-white border-t border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="font-semibold text-lg">Your Bookings</h2>
+                <button
+                  onClick={() => setView("reservations")}
+                  className="text-blue-600 text-sm hover:underline"
+                >
+                  View All
+                </button>
+              </div>
+              {reservations.length > 0 ? (
+                <ReservationList
+                  reservations={reservations.slice(0, 3)}
+                  compact
+                />
+              ) : (
+                <p className="text-gray-500">No active bookings</p>
+              )}
+            </div>
           </div>
         );
       case "list":
@@ -120,7 +141,10 @@ function App() {
       case "reservations":
         return (
           <div className="flex-1 p-4 overflow-y-auto">
-            <ReservationList reservations={reservations} />
+            <ReservationList
+              reservations={reservations}
+              onCancel={(id) => cancelReservation(id)}
+            />
           </div>
         );
       case "overview":
@@ -177,8 +201,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <Header 
-        userLocation={userLocation} 
+      <Header
+        userLocation={userLocation}
         networkStatus={networkStatus}
         reservations={reservations}
         onViewChange={setView}

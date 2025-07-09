@@ -8,18 +8,18 @@ const PaymentModal = ({ spot, isOpen, onClose, onConfirm }) => {
 
   if (!isOpen || !spot) return null;
 
+  // In the handlePayment function in PaymentModal:
   const handlePayment = async () => {
     setProcessing(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setProcessing(false);
-    // In the handlePayment function in PaymentModal:
     onConfirm({
       spot,
       duration,
       total: spot.price * duration,
       paymentMethod,
       reservationId: `RES-${Date.now()}`,
-      timestamp: Date.now(), // Add this line
+      timestamp: Date.now(),
     });
   };
 

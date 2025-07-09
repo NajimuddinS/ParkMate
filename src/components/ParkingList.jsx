@@ -31,79 +31,73 @@ const ParkingSpotCard = ({ spot, onSelect, isSelected, userLocation }) => {
 
   return (
     <div
-      className={`p-5 m-5 rounded-lg shadow-sm border border-gray-100 transition-all duration-200 cursor-pointer hover:shadow-md ${
-        isSelected ? 'ring-2 ring-blue-500 bg-blue-50 border-blue-200' : 'bg-white'
+      className={`p-4 rounded-lg shadow-md transition-all duration-200 cursor-pointer hover:shadow-lg ${
+        isSelected ? 'ring-2 ring-blue-500 bg-blue-50' : 'bg-white'
       }`}
       onClick={() => onSelect(spot)}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-gray-900 mb-1.5 truncate">{spot.name}</h3>
-          <div className="flex items-center gap-2 mb-3">
-            <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getTypeColor(spot.type)}`}>
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <h3 className="font-semibold text-gray-800 mb-1">{spot.name}</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(spot.type)}`}>
               {spot.type}
             </span>
-            <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
               spot.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
             }`}>
               {spot.available ? 'Available' : 'Occupied'}
             </span>
           </div>
         </div>
-        <div className="text-right ml-2">
-          <div className="flex items-center justify-end text-green-700 font-semibold text-sm">
+        <div className="text-right">
+          <div className="flex items-center text-green-600 font-semibold">
             <DollarSign className="w-4 h-4 mr-1" />
             {spot.price}/hr
           </div>
-          <div className="flex items-center justify-end text-gray-500 text-xs mt-1.5">
-            <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
-            {4.5.toFixed(1)}
+          <div className="flex items-center text-gray-500 text-sm mt-1">
+            <Star className="w-3 h-3 mr-1 fill-current" />
+            4.{Math.floor(Math.random() * 5) + 3}
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-y-3 gap-x-4 mb-4">
+      <div className="grid grid-cols-2 gap-3 mb-3">
         <div className="flex items-center text-gray-600 text-sm">
-          <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
-          <span className="truncate">{spot.distance}m away</span>
+          <MapPin className="w-4 h-4 mr-2" />
+          {spot.distance}m away
         </div>
         <div className="flex items-center text-gray-600 text-sm">
-          <Navigation className="w-4 h-4 mr-2 flex-shrink-0" />
-          <span className="truncate">{spot.walkingTime} min walk</span>
+          <Navigation className="w-4 h-4 mr-2" />
+          {spot.walkingTime} min walk
         </div>
         <div className="flex items-center text-gray-600 text-sm">
-          <Clock className="w-4 h-4 mr-2 flex-shrink-0" />
-          <span className="truncate">Max {spot.maxTime}min</span>
+          <Clock className="w-4 h-4 mr-2" />
+          Max {spot.maxTime}min
         </div>
         <div className="flex items-center text-gray-600 text-sm">
-          <Car className="w-4 h-4 mr-2 flex-shrink-0" />
-          <span className="truncate">{Math.floor(Math.random() * 10) + 1} spots</span>
+          <Car className="w-4 h-4 mr-2" />
+          {Math.floor(Math.random() * 10) + 1} spots
         </div>
       </div>
 
       {spot.amenities.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-1">
           {spot.amenities.map((amenity) => (
             <div
               key={amenity}
-              className="flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
+              className="flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
             >
               {amenityIcons[amenity]}
-              <span className="capitalize whitespace-nowrap">{amenity.replace('-', ' ')}</span>
+              <span className="capitalize">{amenity.replace('-', ' ')}</span>
             </div>
           ))}
         </div>
       )}
 
       {spot.available && (
-        <div className="mt-4 pt-3 border-t border-gray-200">
-          <button 
-            className="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700 transition-colors font-medium text-sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle reservation logic here
-            }}
-          >
+        <div className="mt-3 pt-3 border-t border-gray-200">
+          <button className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors font-medium">
             Reserve Now
           </button>
         </div>
@@ -166,20 +160,16 @@ const ParkingList = ({ parkingSpots, onSpotSelect, selectedSpot, userLocation, i
   });
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2 m-5">
-        <h2 className="text-lg font-semibold text-gray-900">
-          Nearby Parking <span className="text-gray-500">({parkingSpots.length})</span>
+    <div className="space-y-4 p-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-gray-800">
+          Nearby Parking ({parkingSpots.length} spots)
         </h2>
-        <div className="flex items-center gap-3 text-xs text-gray-600">
-          <div className="flex items-center gap-1">
-            <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
-            <span>Available</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
-            <span>Occupied</span>
-          </div>
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          Available
+          <div className="w-3 h-3 bg-red-500 rounded-full ml-2"></div>
+          Occupied
         </div>
       </div>
 
@@ -187,27 +177,25 @@ const ParkingList = ({ parkingSpots, onSpotSelect, selectedSpot, userLocation, i
         <div className="space-y-4">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="animate-pulse">
-              <div className="bg-gray-100 h-36 rounded-lg"></div>
+              <div className="bg-gray-200 h-32 rounded-lg"></div>
             </div>
           ))}
         </div>
       ) : (
         <>
-          <div className="space-y-4">
-            {sortedSpots.map((spot) => (
-              <ParkingSpotCard
-                key={spot.id}
-                spot={spot}
-                onSelect={onSpotSelect}
-                isSelected={selectedSpot?.id === spot.id}
-                userLocation={userLocation}
-              />
-            ))}
-          </div>
+          {sortedSpots.map((spot) => (
+            <ParkingSpotCard
+              key={spot.id}
+              spot={spot}
+              onSelect={onSpotSelect}
+              isSelected={selectedSpot?.id === spot.id}
+              userLocation={userLocation}
+            />
+          ))}
           
           {visibleSpots.length < parkingSpots.length && (
-            <div ref={loadingRef} className="flex justify-center py-6">
-              <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-500 border-t-transparent"></div>
+            <div ref={loadingRef} className="flex justify-center py-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
           )}
         </>

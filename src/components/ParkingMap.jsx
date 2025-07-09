@@ -189,7 +189,8 @@ const ParkingMap = ({ userLocation, parkingSpots, onSpotSelect, selectedSpot }) 
           </Marker>
         ))}
       </MapContainer>
-        
+      
+
       <LocateControl onLocate={handleLocateMe} />
     </div>
   );

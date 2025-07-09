@@ -1,10 +1,10 @@
-// src/hooks/useReservations.js
+// src/hooks/useReservation.js
 import { useState, useEffect } from 'react';
 
-const useReservations = () => {
+const useReservation = () => {
   const [reservations, setReservations] = useState([]);
 
-  // Load reservations from local storage on initial render
+  // Load reservations from localStorage on initial render
   useEffect(() => {
     const savedReservations = localStorage.getItem('parkingReservations');
     if (savedReservations) {
@@ -12,16 +12,29 @@ const useReservations = () => {
     }
   }, []);
 
-  // Save to local storage whenever reservations change
+  // Save to localStorage whenever reservations change
   useEffect(() => {
     localStorage.setItem('parkingReservations', JSON.stringify(reservations));
   }, [reservations]);
 
-  const addReservation = (newReservation) => {
+  const addReservation = (reservationData) => {
+    const newReservation = {
+      ...reservationData,
+      id: `res-${Date.now()}`,
+      timestamp: Date.now()
+    };
     setReservations(prev => [newReservation, ...prev]);
   };
 
-  return { reservations, addReservation };
+  const cancelReservation = (reservationId) => {
+    setReservations(prev => prev.filter(res => res.id !== reservationId));
+  };
+
+  return {
+    reservations,
+    addReservation,
+    cancelReservation
+  };
 };
 
-export default useReservations;
+export default useReservation;

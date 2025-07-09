@@ -27,7 +27,7 @@ const Header = ({
                 <MapPin className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">ParkSmart</h1>
+                <h1 className="text-xl font-bold text-gray-900">ParkMate</h1>
                 <p className="text-sm text-gray-600">Find parking instantly</p>
               </div>
             </div>
