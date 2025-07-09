@@ -120,12 +120,12 @@ const ParkingMap = ({ userLocation, parkingSpots, onSpotSelect, selectedSpot }) 
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-screen">
       <MapContainer
         ref={mapRef}
         center={mapCenter}
         zoom={mapZoom}
-        className="w-full h-full rounded-lg shadow-lg"
+        className="w-full h-screen rounded-lg shadow-lg"
         zoomControl={false}
       >
         <MapUpdater center={mapCenter} zoom={mapZoom} />
@@ -189,8 +189,7 @@ const ParkingMap = ({ userLocation, parkingSpots, onSpotSelect, selectedSpot }) 
           </Marker>
         ))}
       </MapContainer>
-      
-      {/* Locate button now positioned absolutely over the map */}
+        
       <LocateControl onLocate={handleLocateMe} />
     </div>
   );
