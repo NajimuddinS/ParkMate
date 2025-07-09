@@ -51,12 +51,6 @@ npm run dev
 
 ---
 
-## 📸 Screenshots
-
-*Include relevant screenshots or a demo GIF showing map interaction, available spots, and walking distance overlay.*
-
----
-
 ## 🌐 Deployment
 
 You can deploy this app on platforms like **Vercel**, **Netlify**, or **GitHub Pages**. Make sure to securely store your **TomTom API key** and follow deployment instructions based on your platform.
